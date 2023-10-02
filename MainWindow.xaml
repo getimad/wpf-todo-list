@@ -1,0 +1,58 @@
+﻿<Window x:Class="TodoList.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TodoList"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="450"
+        ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
+
+        <ListView x:Name="PrimaryList"
+                  Grid.Column="1"
+                  Grid.Row="1"
+                  Height="357"
+                  VerticalAlignment="Top">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Id"
+                                        Width="35"
+                                        DisplayMemberBinding="{ Binding Id }"/>
+                        <GridViewColumn Header="Task"
+                                        Width="300"
+                                        DisplayMemberBinding="{ Binding Task }"/>
+                        <GridViewColumn Header="Date"
+                                        Width="70"
+                                        DisplayMemberBinding="{ Binding Date }"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <DockPanel Grid.Column="1"
+                   Grid.Row="2">
+            <TextBox x:Name="Input"
+                     Width="300"
+                     HorizontalAlignment="Left"
+                     VerticalContentAlignment="Center"/>
+            <Button x:Name="AddBtn"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Content="Add" />
+        </DockPanel>
+    </Grid>
+</Window>
