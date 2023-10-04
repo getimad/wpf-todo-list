@@ -7,21 +7,6 @@ namespace TodoList.Utilities
 {
     public class DataAccess
     {
-        public void AddTask(string content)
-        {
-            using var connection = new SqlConnection(Helper.GetConnectionString("TodoListDB"));
-
-            connection.Open();
-
-            var query = "INSERT INTO Tasks (Content) VALUES (@Content)";
-
-            var command = new SqlCommand(query, connection);
-
-            command.Parameters.AddWithValue("@Content", content);
-
-            command.ExecuteNonQuery();
-        }
-
         public List<Task> GetTasks()
         {
             var tasks = new List<Task>();
@@ -52,6 +37,36 @@ namespace TodoList.Utilities
             }
 
             return tasks;
+        }
+
+        public void AddTask(string content)
+        {
+            using var connection = new SqlConnection(Helper.GetConnectionString("TodoListDB"));
+
+            connection.Open();
+
+            var query = "INSERT INTO Tasks (Content) VALUES (@Content)";
+
+            var command = new SqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@Content", content);
+
+            command.ExecuteNonQuery();
+        }
+
+        public void DeleteTask(int id)
+        {
+            using var connection = new SqlConnection(Helper.GetConnectionString("TodoListDB"));
+
+            connection.Open();
+
+            var query = "DELETE FROM TASKS WHERE Id = @Id";
+
+            var command = new SqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@Id", id);
+
+            command.ExecuteNonQuery();
         }
     }
 }

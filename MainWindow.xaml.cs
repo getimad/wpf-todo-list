@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TodoList.Utilities;
+using TodoList.Models;
+
 
 namespace TodoList
 {
@@ -21,30 +12,49 @@ namespace TodoList
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly DataAccess _dataAccess = new DataAccess();
+
         public MainWindow()
         {
             InitializeComponent();
 
-            RenderListBox();
+            RenderListView();
+        }
+
+        /// <summary>
+        /// Refresh the list view
+        /// </summary>
+        private void RenderListView()
+        {
+            var tasks = _dataAccess.GetTasks();
+
+            PrimaryList.ItemsSource = tasks;
         }
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            var db = new DataAccess();
-
-            db.AddTask(Input.Text);
-
+            var task = Input.Text;
             Input.Clear();
 
-            RenderListBox();
+            _dataAccess.AddTask(task);
+
+            RenderListView();
         }
-        private void RenderListBox()
+
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var db = new DataAccess();
+            // Converting sender from object to Task
+            if (sender is ListViewItem item)
+            {
+                if (item.Content is Task task)
+                {
+                    var id = task.Id;
 
-            var tasks = db.GetTasks();
+                    _dataAccess.DeleteTask(id);
+                }
+            }
 
-            PrimaryList.ItemsSource = tasks;
+            RenderListView();
         }
     }
 }

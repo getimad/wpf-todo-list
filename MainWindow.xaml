@@ -41,6 +41,14 @@
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
+            
+            <!-- Add event handler to ListViewItem -->
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick"
+                                 Handler="ListViewItem_MouseDoubleClick"/>
+                </Style>
+            </ListView.Resources>
         </ListView>
 
         <DockPanel Grid.Column="1"
@@ -48,8 +56,7 @@
             <TextBox x:Name="Input"
                      Width="300"
                      HorizontalAlignment="Left"
-                     VerticalContentAlignment="Center"
-                     />
+                     VerticalContentAlignment="Center"/>
             <Button x:Name="AddBtn"
                     Width="100"
                     HorizontalAlignment="Right"
