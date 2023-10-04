@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TodoList.Utilities;
 
 namespace TodoList
 {
@@ -23,6 +24,27 @@ namespace TodoList
         public MainWindow()
         {
             InitializeComponent();
+
+            RenderListBox();
+        }
+
+        private void AddBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var db = new DataAccess();
+
+            db.AddTask(Input.Text);
+
+            Input.Clear();
+
+            RenderListBox();
+        }
+        private void RenderListBox()
+        {
+            var db = new DataAccess();
+
+            var tasks = db.GetTasks();
+
+            PrimaryList.ItemsSource = tasks;
         }
     }
 }

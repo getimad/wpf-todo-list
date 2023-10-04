@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TodoList"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="450"
+        Title="TodoList" Height="450" Width="450"
         ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -33,10 +33,10 @@
                                         Width="35"
                                         DisplayMemberBinding="{ Binding Id }"/>
                         <GridViewColumn Header="Task"
-                                        Width="300"
-                                        DisplayMemberBinding="{ Binding Task }"/>
+                                        Width="220"
+                                        DisplayMemberBinding="{ Binding Content }"/>
                         <GridViewColumn Header="Date"
-                                        Width="70"
+                                        Width="130"
                                         DisplayMemberBinding="{ Binding Date }"/>
                     </GridView.Columns>
                 </GridView>
@@ -48,11 +48,13 @@
             <TextBox x:Name="Input"
                      Width="300"
                      HorizontalAlignment="Left"
-                     VerticalContentAlignment="Center"/>
+                     VerticalContentAlignment="Center"
+                     />
             <Button x:Name="AddBtn"
                     Width="100"
                     HorizontalAlignment="Right"
-                    Content="Add" />
+                    Content="Add" 
+                    Click="AddBtn_Click"/>
         </DockPanel>
     </Grid>
 </Window>
