@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TodoList"
         mc:Ignorable="d"
-        Title="TodoList" Height="450" Width="450"
+        Title="TodoList" Height="525" Width="560"
         ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,7 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="10" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
+            <RowDefinition Height="95" />
             <RowDefinition Height="10" />
         </Grid.RowDefinitions>
 
@@ -35,8 +35,11 @@
                         <GridViewColumn Header="Task"
                                         Width="220"
                                         DisplayMemberBinding="{ Binding Content }"/>
+                        <GridViewColumn Header="Priority"
+                                        Width="100"
+                                        DisplayMemberBinding="{ Binding Priority }"/>
                         <GridViewColumn Header="Date"
-                                        Width="130"
+                                        Width="150"
                                         DisplayMemberBinding="{ Binding Date }"/>
                     </GridView.Columns>
                 </GridView>
@@ -51,17 +54,34 @@
             </ListView.Resources>
         </ListView>
 
-        <DockPanel Grid.Column="1"
-                   Grid.Row="2">
-            <TextBox x:Name="Input"
-                     Width="300"
-                     HorizontalAlignment="Left"
-                     VerticalContentAlignment="Center"/>
-            <Button x:Name="AddBtn"
-                    Width="100"
-                    HorizontalAlignment="Right"
-                    Content="Add" 
-                    Click="AddBtn_Click"/>
-        </DockPanel>
+        <!--Add Task-->
+        <GroupBox Grid.Column="1"
+                  Grid.Row="2"
+                  Header="Add Task">
+            <StackPanel>
+                <DockPanel Margin="10, 10, 10, 0">
+                    <ComboBox Name="PriorityComboBox"
+                              Width="100"
+                              HorizontalAlignment="Left"
+                              SelectedIndex="3">
+                        <ComboBoxItem Content="Priority 1"/>
+                        <ComboBoxItem Content="Priority 2"/>
+                        <ComboBoxItem Content="Priority 3"/>
+                        <ComboBoxItem Content="Priority 4"/>
+                    </ComboBox>
+                </DockPanel>
+                <DockPanel Margin="10, 10, 10, 0">
+                    <TextBox x:Name="Input"
+                             Width="380"
+                             HorizontalAlignment="Left"
+                             VerticalContentAlignment="Center"/>
+                    <Button x:Name="AddBtn"
+                            Width="100"
+                            HorizontalAlignment="Right"
+                            Content="Add" 
+                            Click="AddBtn_Click"/>
+                </DockPanel>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>
