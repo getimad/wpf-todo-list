@@ -33,10 +33,22 @@ namespace TodoList
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            var task = Input.Text;
-            Input.Clear();
+            // Input
+            var content = Input.Text;
 
-            _dataAccess.AddTask(task);
+            // Priority
+            var priority = "Priority 4";
+            if (PriorityComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem)
+            {
+                priority = selectedComboBoxItem.Content.ToString();
+            }
+
+            // Clear the forms
+            Input.Clear();
+            PriorityComboBox.SelectedIndex = 3;
+
+            // Add Task to tasks table in database
+            _dataAccess.AddTask(content, priority);
 
             RenderListView();
         }

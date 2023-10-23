@@ -27,6 +27,7 @@ namespace TodoList.Utilities
                             {
                                 Id = (int)reader["Id"],
                                 Content = (string)reader["Content"],
+                                Priority = (string)reader["Priority"],
                                 Date = (DateTime)reader["Date"]
                             };
 
@@ -39,17 +40,18 @@ namespace TodoList.Utilities
             return tasks;
         }
 
-        public void AddTask(string content)
+        public void AddTask(string content, string priority)
         {
             using var connection = new SqlConnection(Helper.GetConnectionString("TodoListDB"));
 
             connection.Open();
 
-            var query = "INSERT INTO Tasks (Content) VALUES (@Content)";
+            var query = "INSERT INTO Tasks (Content, Priority) VALUES (@Content, @Priority)";
 
             var command = new SqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@Content", content);
+            command.Parameters.AddWithValue("@Priority", priority);
 
             command.ExecuteNonQuery();
         }
