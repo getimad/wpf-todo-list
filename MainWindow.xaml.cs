@@ -33,18 +33,28 @@ namespace TodoList
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            var task = Input.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(task))
+            // Task content
+            var content = Input.Text.Trim();
+            // Handle empty input
+            if (string.IsNullOrWhiteSpace(content))
             {
                 MessageBox.Show("Input field cannot be empty.");
 
                 return;
             }
 
-            Input.Clear();
+            // Task priority
+            var priority = "Priority 4";
+            if (PriorityComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem)
+            {
+                priority = selectedComboBoxItem.Content.ToString();
+            }
 
-            _dataAccess.AddTask(task);
+            Input.Clear();
+            PriorityComboBox.SelectedIndex = 3;
+
+            // Add Task to tasks table in database
+            _dataAccess.AddTask(content, priority);
 
             RenderListView();
         }
