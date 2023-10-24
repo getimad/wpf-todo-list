@@ -33,7 +33,15 @@ namespace TodoList
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            var task = Input.Text;
+            var task = Input.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(task))
+            {
+                MessageBox.Show("Input field cannot be empty.");
+
+                return;
+            }
+
             Input.Clear();
 
             _dataAccess.AddTask(task);
