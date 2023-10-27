@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Controls;
 using TodoList.Utilities;
 using TodoList.Models;
-
+using System.Collections.Generic;
 
 namespace TodoList
 {
@@ -14,6 +14,11 @@ namespace TodoList
     {
         private readonly DataAccess _dataAccess = new DataAccess();
 
+        /// <summary>
+        /// Get tasks from the database.
+        /// </summary>
+        public List<Task> Tasks => _dataAccess.GetTasks();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -22,13 +27,11 @@ namespace TodoList
         }
 
         /// <summary>
-        /// Refresh the list view
+        /// Refresh the list view.
         /// </summary>
-        private void RenderListView()
+        private void RenderListView(List<Task>? tasks = null)
         {
-            var tasks = _dataAccess.GetTasks();
-
-            PrimaryList.ItemsSource = tasks;
+            PrimaryList.ItemsSource = tasks ?? Tasks;
         }
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
