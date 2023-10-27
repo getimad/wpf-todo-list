@@ -83,7 +83,7 @@
                     </ComboBox>
                 </DockPanel>
                 <DockPanel Height="26">
-                    <TextBox x:Name="Input"
+                    <TextBox x:Name="AddInput"
                              Width="435"
                              HorizontalAlignment="Left"
                              Padding="3,0,0,0"

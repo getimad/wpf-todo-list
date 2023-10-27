@@ -37,10 +37,22 @@ namespace TodoList
             PrimaryList.ItemsSource = tasks ?? Tasks;
         }
 
+
+        /// <summary>
+        /// Clear all input form of MainWindow
+        /// </summary>
+        private void ClearForm()
+        {
+            SearchInput.Clear();
+            AddInput.Clear();
+            SearchByComboBox.SelectedIndex = 0;
+            PriorityComboBox.SelectedIndex = 3;
+        }
+
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
             // Task content
-            var content = Input.Text.Trim();
+            var content = AddInput.Text.Trim();
             // Handle empty input
             if (string.IsNullOrWhiteSpace(content))
             {
@@ -56,8 +68,7 @@ namespace TodoList
                 priority = selectedComboBoxItem.Content.ToString();
             }
 
-            Input.Clear();
-            PriorityComboBox.SelectedIndex = 3;
+            ClearForm();
 
             // Add Task to tasks table in database
             _dataAccess.AddTask(content, priority);
