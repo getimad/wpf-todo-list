@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using TodoList.Utilities;
@@ -76,6 +77,54 @@ namespace TodoList
             }
 
             RenderListView();
+        }
+
+        private void Search_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchContent = SearchInput.Text.Trim();
+
+            var searchBy = "All";
+            if (SearchByComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem)
+            {
+                searchBy = selectedComboBoxItem.Content.ToString();
+            }
+
+            var tasks = new List<Task>();
+
+            switch (searchBy)
+            {
+                case "Id":
+                    foreach (var task in Tasks)
+                    {
+                        if (task.Id.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                    break;
+
+                case "Content":
+                    foreach (var task in Tasks)
+                    {
+                        if (task.Content.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                    break;
+                default:
+                    foreach (var task in Tasks)
+                    {
+                        if (task.Id.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase) ||
+                            task.Content.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                    break;
+            }
+
+            RenderListView(tasks);
         }
     }
 }
