@@ -16,8 +16,9 @@
                 <ComboBox x:Name="SearchByComboBox"
                           Width="90"
                           Margin="5,0"
-                          SelectedIndex="0"
-                          VerticalContentAlignment="Center">
+                          VerticalContentAlignment="Center"
+                          SelectionChanged="Search_Event"
+                          SelectedIndex="0">
                     <ComboBoxItem Content="All"/>
                     <ComboBoxItem Content="Id"/>
                     <ComboBoxItem Content="Content"/>
@@ -25,7 +26,7 @@
                 <TextBox x:Name="SearchInput"
                          VerticalContentAlignment="Center"
                          Padding="3,0,0,0"
-                         TextChanged="Search_TextChanged"/>
+                         TextChanged="Search_Event"/>
             </DockPanel>
         </GroupBox>
         

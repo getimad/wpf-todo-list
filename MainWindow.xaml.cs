@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using TodoList.Utilities;
 using TodoList.Models;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using System.Reflection.Metadata;
 
 namespace TodoList
 {
@@ -79,8 +81,11 @@ namespace TodoList
             RenderListView();
         }
 
-        private void Search_TextChanged(object sender, TextChangedEventArgs e)
+        private void Search_Event(object sender, RoutedEventArgs e)
         {
+            if (!IsLoaded)  // Check if MainWindow.xaml is ready.
+                return;
+
             var searchContent = SearchInput.Text.Trim();
 
             var searchBy = "All";
@@ -91,37 +96,17 @@ namespace TodoList
 
             var tasks = new List<Task>();
 
-            switch (searchBy)
+            foreach (var task in Tasks)
             {
-                case "Id":
-                    foreach (var task in Tasks)
-                    {
-                        if (task.Id.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
-                        {
-                            tasks.Add(task);
-                        }
-                    }
-                    break;
+                var idMatch = task.Id.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase);
+                var contentMatch = task.Content.Contains(searchContent, StringComparison.OrdinalIgnoreCase);
 
-                case "Content":
-                    foreach (var task in Tasks)
-                    {
-                        if (task.Content.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
-                        {
-                            tasks.Add(task);
-                        }
-                    }
-                    break;
-                default:
-                    foreach (var task in Tasks)
-                    {
-                        if (task.Id.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase) ||
-                            task.Content.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
-                        {
-                            tasks.Add(task);
-                        }
-                    }
-                    break;
+                if ((searchBy == "Id" && idMatch) ||
+                    (searchBy == "Content" && contentMatch) ||
+                    (searchBy == "All" && (idMatch || contentMatch)))
+                {
+                    tasks.Add(task);
+                }
             }
 
             RenderListView(tasks);
