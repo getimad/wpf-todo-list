@@ -5,75 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TodoList"
         mc:Ignorable="d"
-        Title="TodoList" Height="525" Width="560"
+        Title="TodoList" Height="515" Width="600"
         ResizeMode="CanMinimize">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="10" />
-        </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="95" />
-            <RowDefinition Height="10" />
-        </Grid.RowDefinitions>
-
-        <ListView x:Name="PrimaryList"
-                  Grid.Column="1"
-                  Grid.Row="1"
-                  Height="357"
-                  VerticalAlignment="Top">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Id"
-                                        Width="35"
-                                        DisplayMemberBinding="{ Binding Id }"/>
-                        <GridViewColumn Header="Task"
-                                        Width="220"
-                                        DisplayMemberBinding="{ Binding Content }"/>
-                        <GridViewColumn Header="Priority"
-                                        Width="100"
-                                        DisplayMemberBinding="{ Binding Priority }"/>
-                        <GridViewColumn Header="Date"
-                                        Width="150"
-                                        DisplayMemberBinding="{ Binding Date }"/>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
+    <StackPanel Margin="10">
+        <!--Search-->
+        <GroupBox Header="Search"
+                  Padding="5">
+            <DockPanel Height="26">
+                <Label Content="Search By"/>
+                <ComboBox x:Name="SearchByComboBox"
+                          Width="90"
+                          Margin="5,0"
+                          SelectedIndex="0"
+                          VerticalContentAlignment="Center">
+                    <ComboBoxItem Content="All"/>
+                    <ComboBoxItem Content="Id"/>
+                    <ComboBoxItem Content="Content"/>
+                </ComboBox>
+                <TextBox x:Name="SearchInput"
+                         VerticalContentAlignment="Center"
+                         Padding="3,0,0,0"
+                         TextChanged="Search_TextChanged"/>
+            </DockPanel>
+        </GroupBox>
+        
+        <!--ListView-->
+        <GroupBox Header="Tasks"
+                  Height="300">
+            <ListView x:Name="PrimaryList"
+                      VerticalAlignment="Top"
+                      BorderThickness="0"
+                      Margin="5">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Id"
+                                            Width="35"
+                                            DisplayMemberBinding="{ Binding Id }"/>
+                            <GridViewColumn Header="Task"
+                                            Width="220"
+                                            DisplayMemberBinding="{ Binding Content }"/>
+                            <GridViewColumn Header="Priority"
+                                            Width="100"
+                                            DisplayMemberBinding="{ Binding Priority }"/>
+                            <GridViewColumn Header="Date"
+                                            Width="150"
+                                            DisplayMemberBinding="{ Binding Date }"/>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
             
-            <!-- Add event handler to ListViewItem -->
-            <ListView.Resources>
-                <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDoubleClick"
-                                 Handler="ListViewItem_MouseDoubleClick"/>
-                </Style>
-            </ListView.Resources>
-        </ListView>
+                <!-- Add event handler to ListViewItem -->
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <EventSetter Event="MouseDoubleClick"
+                                     Handler="ListViewItem_MouseDoubleClick"/>
+                    </Style>
+                </ListView.Resources>
+            </ListView>
+        </GroupBox>
 
         <!--Add Task-->
-        <GroupBox Grid.Column="1"
-                  Grid.Row="2"
-                  Header="Add Task">
-            <StackPanel>
-                <DockPanel Margin="10, 10, 10, 0">
+        <GroupBox Header="Add Task">
+            <StackPanel Margin="5">
+                <DockPanel Height="26"
+                           Margin="0,0,0,10">
                     <ComboBox Name="PriorityComboBox"
                               Width="100"
                               HorizontalAlignment="Left"
-                              SelectedIndex="3">
+                              SelectedIndex="3"
+                              VerticalContentAlignment="Center">
                         <ComboBoxItem Content="Priority 1"/>
                         <ComboBoxItem Content="Priority 2"/>
                         <ComboBoxItem Content="Priority 3"/>
                         <ComboBoxItem Content="Priority 4"/>
                     </ComboBox>
                 </DockPanel>
-                <DockPanel Margin="10, 10, 10, 0">
+                <DockPanel Height="26">
                     <TextBox x:Name="Input"
-                             Width="380"
+                             Width="435"
                              HorizontalAlignment="Left"
+                             Padding="3,0,0,0"
                              VerticalContentAlignment="Center"/>
                     <Button x:Name="AddBtn"
                             Width="100"
@@ -83,5 +95,5 @@
                 </DockPanel>
             </StackPanel>
         </GroupBox>
-    </Grid>
+    </StackPanel>
 </Window>
