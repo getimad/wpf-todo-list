@@ -5,8 +5,7 @@ using System.Windows.Controls;
 using TodoList.Utilities;
 using TodoList.Models;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
-using System.Reflection.Metadata;
+using System.Linq;
 
 namespace TodoList
 {
@@ -15,15 +14,23 @@ namespace TodoList
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly DataAccess _dataAccess = new DataAccess();
+        private readonly DataAccess _dataAccess;
+        private readonly List<Task> _tasks;
 
         /// <summary>
         /// Get tasks from the database.
         /// </summary>
-        public List<Task> Tasks => _dataAccess.GetTasks();
+        public List<Task> Tasks
+        {
+            get => _tasks;
+            private set => PrimaryList.ItemsSource = value;
+        }
 
         public MainWindow()
         {
+            _dataAccess = new DataAccess();
+            _tasks = _dataAccess.GetTasks();
+
             InitializeComponent();
 
             RenderListView();
@@ -32,11 +39,18 @@ namespace TodoList
         /// <summary>
         /// Refresh the list view.
         /// </summary>
-        private void RenderListView(List<Task>? tasks = null)
+        private void RenderListView()
         {
-            PrimaryList.ItemsSource = tasks ?? Tasks;
+            Tasks = _dataAccess.GetTasks();
         }
 
+        private void RenderListView(List<Task>? tasks = null)
+        {
+            if (tasks is null)
+                RenderListView();
+
+            PrimaryList.ItemsSource = tasks;
+        }
 
         /// <summary>
         /// Clear all input form of MainWindow
@@ -46,6 +60,8 @@ namespace TodoList
             SearchInput.Clear();
             AddInput.Clear();
             SearchByComboBox.SelectedIndex = 0;
+            SortedByComboBox.SelectedIndex = 0;
+            DesCheckBox.IsChecked = false;
             PriorityComboBox.SelectedIndex = 3;
         }
 
@@ -119,6 +135,26 @@ namespace TodoList
                     tasks.Add(task);
                 }
             }
+
+            RenderListView(tasks);
+            SortedBy_Event(sender, e);
+        }
+
+        private void SortedBy_Event(object sender, RoutedEventArgs e)
+        {
+            if (!IsLoaded)  // Check if MainWindow.xaml is ready.
+                return;
+
+            var sortedBy = SortedByComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem ? selectedComboBoxItem.Content.ToString() : null;
+
+            if (sortedBy is null)
+                return;
+
+            var tasks = PrimaryList.ItemsSource is IEnumerable<Task> list ? list.ToList() : new List<Task>();
+
+            tasks.Sort(new DynamicComparer<Task>(sortedBy));
+            if (DesCheckBox.IsChecked ?? false)
+                tasks.Reverse();
 
             RenderListView(tasks);
         }
