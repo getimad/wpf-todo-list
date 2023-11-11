@@ -14,7 +14,6 @@ namespace TodoList
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly DataAccess _dataAccess;
         private readonly List<Task> _tasks;
 
         /// <summary>
@@ -28,8 +27,7 @@ namespace TodoList
 
         public MainWindow()
         {
-            _dataAccess = new DataAccess();
-            _tasks = _dataAccess.GetTasks();
+            _tasks = DataAccess.GetTasks();
 
             InitializeComponent();
 
@@ -41,7 +39,7 @@ namespace TodoList
         /// </summary>
         private void RenderListView()
         {
-            Tasks = _dataAccess.GetTasks();
+            Tasks = DataAccess.GetTasks();
         }
 
         private void RenderListView(List<Task>? tasks = null)
@@ -87,7 +85,7 @@ namespace TodoList
             ClearForm();
 
             // Add Task to tasks table in database
-            _dataAccess.AddTask(content, priority);
+            DataAccess.AddTask(content, priority);
 
             RenderListView();
         }
@@ -101,7 +99,7 @@ namespace TodoList
                 {
                     var id = task.Id;
 
-                    _dataAccess.DeleteTask(id);
+                    DataAccess.DeleteTask(id);
                 }
             }
 
