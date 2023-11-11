@@ -14,23 +14,14 @@ namespace TodoList
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly List<Task> _tasks;
-
         /// <summary>
         /// Get tasks from the database.
         /// </summary>
-        public List<Task> Tasks
-        {
-            get => _tasks;
-            private set => PrimaryList.ItemsSource = value;
-        }
+        public List<Task>? Tasks { get; private set; }
 
         public MainWindow()
         {
-            _tasks = DataAccess.GetTasks();
-
             InitializeComponent();
-
             RenderListView();
         }
 
@@ -39,7 +30,7 @@ namespace TodoList
         /// </summary>
         private void RenderListView()
         {
-            Tasks = DataAccess.GetTasks();
+            PrimaryList.ItemsSource = Tasks = DataAccess.GetTasks();
         }
 
         private void RenderListView(List<Task>? tasks = null)
