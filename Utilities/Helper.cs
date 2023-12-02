@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace TodoList.Models
+namespace TodoList.Utilities
 {
     public static class Helper
     {
